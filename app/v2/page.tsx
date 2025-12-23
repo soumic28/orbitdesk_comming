@@ -7,6 +7,8 @@ import { GridPattern } from '@/components/ui/grid-pattern';
 import { Navbar } from '@/components/ui/navbar';
 import { SpotlightText } from '@/components/ui/spotlight-text';
 import { cn } from '@/lib/utils';
+import Particles from '@/components/ui/particles';
+import { MagneticButton } from '@/components/ui/magnetic-button';
 
 export default function PageV2() {
     const [isMobile, setIsMobile] = useState(false);
@@ -46,6 +48,16 @@ export default function PageV2() {
 
             {/* Background Grid - Constant */}
             <div className="absolute inset-0 z-0">
+                {/* Interactive Particles - Added behind grid but interactive */}
+                <div className="absolute inset-0 z-0">
+                    <Particles
+                        className="absolute inset-0"
+                        quantity={100}
+                        ease={80}
+                        refresh
+                    />
+                </div>
+
                 <motion.div
                     className="absolute inset-0"
                     initial={{ opacity: 0 }}
@@ -165,12 +177,12 @@ export default function PageV2() {
                     transition={{ delay: 4, duration: 1 }}
                     className="absolute bottom-12 right-12 hidden gap-4 md:flex items-center pointer-events-auto"
                 >
-                    <button className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                    <MagneticButton className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                         Build with OrbitDesk
-                    </button>
-                    <button className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                    </MagneticButton>
+                    <MagneticButton className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                         Learn More
-                    </button>
+                    </MagneticButton>
                 </motion.div>
 
                 {/* Bottom Left Indicator */}
