@@ -1,65 +1,131 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Sparkles, Clock } from 'lucide-react';
+
+import { AnimatedBackground } from '@/components/auth/AnimatedBackground';
+import { GridPattern } from '@/components/ui/grid-pattern';
+import { TextRing } from '@/components/ui/text-ring';
+import { cn } from '@/lib/utils';
+import { Navbar } from '@/components/ui/navbar';
+
+export default function ComingSoon() {
+  // Mouse Parallax State
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth spring for the parallax
+  const springConfig = { damping: 30, stiffness: 200 };
+  const springX = useSpring(mouseX, springConfig);
+  const springY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Normalize mouse position from -0.5 to 0.5
+      const x = (e.clientX / window.innerWidth) - 0.5;
+      const y = (e.clientY / window.innerHeight) - 0.5;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  // Parallax Transforms
+  const horizonX = useTransform(springX, [-0.5, 0.5], ['-2%', '2%']);
+  const horizonY = useTransform(springY, [-0.5, 0.5], ['-1%', '1%']);
+
+  // Text Ring transforms - make it look like it's orbiting the horizon
+  const textRingRotateX = useTransform(springY, [-0.5, 0.5], [75, 65]); // Tilted to look like a ring
+  const textRingRotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950 text-foreground selection:bg-primary/20 perspective-1000">
+
+      {/* Navigation Bar */}
+      {/* Navigation Bar */}
+      <Navbar />
+
+      {/* Background Layer */}
+      <div className="absolute inset-0 z-0 bg-zinc-950">
+        <AnimatedBackground />
+        <div className="absolute inset-0">
+          <GridPattern
+            width={60}
+            height={60}
+            x={-1}
+            y={-1}
+            strokeDasharray={'4 2'}
+            className={cn(
+              '[mask-image:radial-gradient(900px_circle_at_center,white,transparent)]',
+              'fill-white/5 stroke-white/5'
+            )}
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      {/* Massive Horizon Arc (The Blackhole/Planet) */}
+      <motion.div
+        style={{ x: horizonX, y: horizonY }}
+        className="pointer-events-none absolute top-1/2 left-1/2 z-10 h-[70vw] w-[70vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black shadow-[0_0_100px_30px_rgba(59,130,246,0.6),0_0_240px_80px_rgba(168,85,247,0.4)] md:h-[25vw] md:w-[25vw]"
+      >
+        {/* Glowing Rim (Nova Effect) - Sharp & Intense */}
+        <div className="absolute inset-0 rounded-full border-[3px] border-blue-400/50 blur-[4px]" />
+        <div className="absolute inset-0 rounded-full border-[1px] border-white/40 blur-[1px]" />
+
+        {/* Inner Atmosphere */}
+        <div className="absolute inset-0 rounded-full bg-radial-gradient from-black via-black to-blue-900/20 opacity-80" />
+
+        {/* Inner Shadow for depth */}
+        <div className="absolute inset-0 rounded-full bg-black shadow-[inset_0_0_60px_20px_rgba(0,0,0,1)]" />
+      </motion.div>
+
+      {/* 3D Text Ring - Positioned to orbit the horizon */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-hidden">
+        <motion.div
+          style={{
+            rotateX: textRingRotateX,
+            rotateY: textRingRotateY,
+            y: 0 // Centered
+          }}
+          className="perspective-1000"
+        >
+          <TextRing text="COMING SOON  " radius={290} fontSize="4.5rem" className="opacity-60 text-blue-200/80" />
+        </motion.div>
+      </div>
+
+      {/* Footer Features - Moved out of main since main is gone */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 1 }}
+        className="absolute bottom-10 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground z-20"
+      >
+        {/* <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-blue-400" />
+          <span>AI-Powered</span>
         </div>
-      </main>
+        <div className="flex items-center gap-2">
+          <Clock className="h-4 w-4 text-purple-400" />
+          <span>Real-time Sync</span>
+        </div> */}
+      </motion.div>
+
+      <style jsx global>{`
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+          animation: gradient 6s ease infinite;
+        }
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+      `}</style>
     </div>
   );
 }
