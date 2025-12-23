@@ -48,15 +48,17 @@ export default function PageV2() {
             <div className="absolute inset-0 z-0">
                 <motion.div
                     className="absolute inset-0"
+                    initial={{ opacity: 0 }}
                     animate={isMobile ? {
+                        opacity: 1,
                         x: [0, -20, 0],
                         y: [0, -20, 0],
-                    } : undefined}
+                    } : { opacity: 1 }}
                     transition={isMobile ? {
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                    } : undefined}
+                        opacity: { delay: 1.5, duration: 1.5 },
+                        x: { duration: 20, repeat: Infinity, ease: "linear" },
+                        y: { duration: 20, repeat: Infinity, ease: "linear" }
+                    } : { delay: 1.5, duration: 1.5 }}
                 >
                     <GridPattern
                         width={60}
@@ -74,15 +76,10 @@ export default function PageV2() {
 
             {/* Massive Background Text "OrbitDesk" - With Spotlight Effect */}
             <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    className="relative z-10"
-                >
+                <div className="relative z-10 flex flex-col items-center">
                     {/* Using a large font size for the background text */}
                     <div className="text-[18vw] font-bold leading-none tracking-tighter p-8">
-                        <SpotlightText text="OrbitDesk" />
+                        <SpotlightText text="OrbitDesk" delay={2} />
                     </div>
                     <motion.div
                         className='text-[8vw] font-bold leading-tight tracking-tighter text-center py-4'
@@ -96,38 +93,50 @@ export default function PageV2() {
                             ease: "easeInOut"
                         } : undefined}
                     >
-                        <SpotlightText text="Coming Soon" />
+                        <SpotlightText text="Coming Soon" delay={2.5} />
                     </motion.div>
-                </motion.div>
+                </div>
             </div>
 
             {/* The "Dawn" / Flare Effect - Brand Colors (Purple/Magenta - OKLCH 290 hue) */}
             {/* Primary bright flare - Purple */}
             <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={isMobile ? {
                     scale: [1, 1.1, 1],
                     opacity: [0.2, 0.3, 0.2]
-                } : undefined}
+                } : {
+                    opacity: 0.2,
+                    scale: 1
+                }}
                 transition={isMobile ? {
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                } : undefined}
-                className="pointer-events-none absolute top-1/2 right-[-10%] h-[80vh] w-[40vw] -translate-y-1/2 rounded-full bg-[#8b5cf6] blur-[120px] opacity-20 mix-blend-screen animate-pulse-slow"
+                    scale: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                    opacity: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.2 } // Start fading in quickly
+                } : {
+                    duration: 2,
+                    ease: "easeOut"
+                }}
+                className="pointer-events-none absolute top-1/2 right-[-10%] h-[80vh] w-[40vw] -translate-y-1/2 rounded-full bg-[#8b5cf6] blur-[120px] mix-blend-screen animate-pulse-slow"
             />
             {/* Secondary glow - Magenta */}
             <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={isMobile ? {
                     scale: [1.1, 1, 1.1],
                     opacity: [0.15, 0.25, 0.15]
-                } : undefined}
+                } : {
+                    opacity: 0.15,
+                    scale: 1
+                }}
                 transition={isMobile ? {
-                    duration: 7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                } : undefined}
-                className="pointer-events-none absolute top-1/2 right-[-5%] h-[100vh] w-[50vw] -translate-y-1/2 rounded-full bg-[#d946ef] blur-[150px] opacity-15 mix-blend-screen"
+                    scale: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 },
+                    opacity: { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+                } : {
+                    duration: 2.5,
+                    ease: "easeOut",
+                    delay: 0.5
+                }}
+                className="pointer-events-none absolute top-1/2 right-[-5%] h-[100vh] w-[50vw] -translate-y-1/2 rounded-full bg-[#d946ef] blur-[150px] mix-blend-screen"
             />
 
             {/* Content Container */}
@@ -140,7 +149,7 @@ export default function PageV2() {
                 <motion.div
                     initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    transition={{ delay: 0.5, duration: 1 }}
+                    transition={{ delay: 3.5, duration: 1 }}
                     className="absolute bottom-24 left-0 right-0 text-center px-4 pointer-events-auto"
                 >
                     <p className="mx-auto max-w-2xl text-lg md:text-xl text-purple-100/80 leading-relaxed font-light tracking-wide">
@@ -153,7 +162,7 @@ export default function PageV2() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 1 }}
+                    transition={{ delay: 4, duration: 1 }}
                     className="absolute bottom-12 right-12 hidden gap-4 md:flex items-center pointer-events-auto"
                 >
                     <button className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
@@ -168,7 +177,7 @@ export default function PageV2() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 1 }}
+                    transition={{ delay: 4.2, duration: 1 }}
                     className="absolute bottom-12 left-12 hidden md:block pointer-events-auto"
                 >
                     <ArrowRight className="h-5 w-5 rotate-90 text-purple-400/50" />

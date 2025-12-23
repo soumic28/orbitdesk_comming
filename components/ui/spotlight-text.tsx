@@ -8,7 +8,7 @@ interface SpotlightTextProps {
     className?: string;
 }
 
-export function SpotlightText({ text, className = '' }: SpotlightTextProps) {
+export function SpotlightText({ text, className = '', delay = 0 }: SpotlightTextProps & { delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [opacity, setOpacity] = useState(0);
@@ -26,34 +26,66 @@ export function SpotlightText({ text, className = '' }: SpotlightTextProps) {
     const handleMouseEnter = () => setOpacity(1);
     const handleMouseLeave = () => setOpacity(0);
 
+    const characters = text.split('');
+
     return (
         <div
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`relative select-none ${className}`}
+            className={`relative select-none inline-block ${className}`}
             style={{ cursor: 'default' }}
         >
-            {/* Base Text (Dim/Outlined) */}
-            <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
-                style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                {text}
-            </span>
+            {/* Base Text (Dim/Outlined) - Animated Reveal */}
+            <div className="flex">
+                {characters.map((char, i) => (
+                    <motion.span
+                        key={i}
+                        initial={{ opacity: 0, filter: 'blur(10px)' }}
+                        animate={{ opacity: 1, filter: 'blur(0px)' }}
+                        transition={{
+                            duration: 0.5,
+                            delay: delay + (characters.length - 1 - i) * 0.05, // Right-to-Left delay
+                            ease: "easeOut"
+                        }}
+                        className="block text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+                        style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
+                    >
+                        {char === ' ' ? '\u00A0' : char}
+                    </motion.span>
+                ))}
+            </div>
 
-            {/* Spotlight Overlay (Shiny/Bright) */}
-            <motion.span
-                className="absolute inset-0 block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80"
+            {/* Spotlight Overlay (Shiny/Bright) - Matches text layout */}
+            <motion.div
+                className="absolute inset-0 flex pointer-events-none"
                 style={{
-                    WebkitTextStroke: '1px rgba(139, 92, 246, 0.8)', // Purple-500 stroke for shiny edge
                     maskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
                     WebkitMaskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
                 }}
                 animate={{ opacity }}
                 transition={{ duration: 0.2 }}
             >
-                {text}
-            </motion.span>
+                {characters.map((char, i) => (
+                    <motion.span
+                        key={i}
+                        initial={{ opacity: 0 }} // Start hidden, reveal matches base text
+                        animate={{ opacity: 1 }}
+                        transition={{
+                            duration: 0.5,
+                            delay: delay + (characters.length - 1 - i) * 0.05,
+                            ease: "easeOut"
+                        }}
+                        className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80"
+                        style={{
+                            WebkitTextStroke: '1px rgba(139, 92, 246, 0.8)',
+                        }}
+                    >
+                        {char === ' ' ? '\u00A0' : char}
+                    </motion.span>
+                ))}
+            </motion.div>
         </div>
     );
 }
