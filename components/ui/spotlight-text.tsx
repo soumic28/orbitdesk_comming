@@ -38,7 +38,7 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
             style={{ cursor: 'default' }}
         >
             {/* Base Text (Dim/Outlined) - Animated Reveal */}
-            <div className="flex">
+            <div className="relative">
                 {characters.map((char, i) => (
                     <motion.span
                         key={i}
@@ -49,7 +49,7 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
                             delay: delay + (characters.length - 1 - i) * 0.05, // Right-to-Left delay
                             ease: "easeOut"
                         }}
-                        className="block text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
                         style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
                     >
                         {char === ' ' ? '\u00A0' : char}
@@ -59,7 +59,7 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
 
             {/* Spotlight Overlay (Shiny/Bright) - Matches text layout */}
             <motion.div
-                className="absolute inset-0 flex pointer-events-none"
+                className="absolute inset-0 pointer-events-none"
                 style={{
                     maskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
                     WebkitMaskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
@@ -77,7 +77,7 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
                             delay: delay + (characters.length - 1 - i) * 0.05,
                             ease: "easeOut"
                         }}
-                        className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80"
+                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80"
                         style={{
                             WebkitTextStroke: '1px rgba(139, 92, 246, 0.8)',
                         }}
