@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { GridPattern } from '@/components/ui/grid-pattern';
 import { Navbar } from '@/components/ui/navbar';
@@ -8,23 +9,67 @@ import { SpotlightText } from '@/components/ui/spotlight-text';
 import { cn } from '@/lib/utils';
 
 export default function PageV2() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
         <div className="relative min-h-screen w-full overflow-hidden bg-[#0a0118] text-foreground selection:bg-purple-500/30 font-sans">
             <Navbar />
 
+            {/* Mobile Border Glow Animation */}
+            {isMobile && (
+                <motion.div
+                    className="pointer-events-none absolute inset-0 z-50 border-[2px] border-transparent rounded-lg"
+                    animate={{
+                        boxShadow: [
+                            "inset 0 0 20px 0px rgba(139, 92, 246, 0.1)",
+                            "inset 0 0 40px 5px rgba(217, 70, 239, 0.2)",
+                            "inset 0 0 20px 0px rgba(139, 92, 246, 0.1)"
+                        ]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+            )}
+
             {/* Background Grid - Constant */}
             <div className="absolute inset-0 z-0">
-                <GridPattern
-                    width={60}
-                    height={60}
-                    x={-1}
-                    y={-1}
-                    strokeDasharray={'4 2'}
-                    className={cn(
-                        '[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)]',
-                        'fill-purple-500/5 stroke-purple-500/5'
-                    )}
-                />
+                <motion.div
+                    className="absolute inset-0"
+                    animate={isMobile ? {
+                        x: [0, -20, 0],
+                        y: [0, -20, 0],
+                    } : undefined}
+                    transition={isMobile ? {
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "linear"
+                    } : undefined}
+                >
+                    <GridPattern
+                        width={60}
+                        height={60}
+                        x={-1}
+                        y={-1}
+                        strokeDasharray={'4 2'}
+                        className={cn(
+                            '[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)]',
+                            'fill-purple-500/5 stroke-purple-500/5'
+                        )}
+                    />
+                </motion.div>
             </div>
 
             {/* Massive Background Text "OrbitDesk" - With Spotlight Effect */}
@@ -39,18 +84,51 @@ export default function PageV2() {
                     <div className="text-[18vw] font-bold leading-none tracking-tighter p-8">
                         <SpotlightText text="OrbitDesk" />
                     </div>
-                    <div className='text-[8vw] font-bold leading-tight tracking-tighter text-center py-4'>
-
+                    <motion.div
+                        className='text-[8vw] font-bold leading-tight tracking-tighter text-center py-4'
+                        animate={isMobile ? {
+                            opacity: [0.8, 1, 0.8],
+                            scale: [0.98, 1.02, 0.98]
+                        } : undefined}
+                        transition={isMobile ? {
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        } : undefined}
+                    >
                         <SpotlightText text="Coming Soon" />
-                    </div>
+                    </motion.div>
                 </motion.div>
             </div>
 
             {/* The "Dawn" / Flare Effect - Brand Colors (Purple/Magenta - OKLCH 290 hue) */}
             {/* Primary bright flare - Purple */}
-            <div className="pointer-events-none absolute top-1/2 right-[-10%] h-[80vh] w-[40vw] -translate-y-1/2 rounded-full bg-[#8b5cf6] blur-[120px] opacity-20 mix-blend-screen animate-pulse-slow" />
+            <motion.div
+                animate={isMobile ? {
+                    scale: [1, 1.1, 1],
+                    opacity: [0.2, 0.3, 0.2]
+                } : undefined}
+                transition={isMobile ? {
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                } : undefined}
+                className="pointer-events-none absolute top-1/2 right-[-10%] h-[80vh] w-[40vw] -translate-y-1/2 rounded-full bg-[#8b5cf6] blur-[120px] opacity-20 mix-blend-screen animate-pulse-slow"
+            />
             {/* Secondary glow - Magenta */}
-            <div className="pointer-events-none absolute top-1/2 right-[-5%] h-[100vh] w-[50vw] -translate-y-1/2 rounded-full bg-[#d946ef] blur-[150px] opacity-15 mix-blend-screen" />
+            <motion.div
+                animate={isMobile ? {
+                    scale: [1.1, 1, 1.1],
+                    opacity: [0.15, 0.25, 0.15]
+                } : undefined}
+                transition={isMobile ? {
+                    duration: 7,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                } : undefined}
+                className="pointer-events-none absolute top-1/2 right-[-5%] h-[100vh] w-[50vw] -translate-y-1/2 rounded-full bg-[#d946ef] blur-[150px] opacity-15 mix-blend-screen"
+            />
 
             {/* Content Container */}
             <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-20 pointer-events-none">

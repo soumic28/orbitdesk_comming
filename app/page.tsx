@@ -14,6 +14,7 @@ export default function ComingSoon() {
   // Mouse Parallax State
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Smooth spring for the parallax
   const springConfig = { damping: 30, stiffness: 200 };
@@ -21,7 +22,16 @@ export default function ComingSoon() {
   const springY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 768) return; // Skip mouse tracking on mobile
+
       // Normalize mouse position from -0.5 to 0.5
       const x = (e.clientX / window.innerWidth) - 0.5;
       const y = (e.clientY / window.innerHeight) - 0.5;
@@ -30,21 +40,23 @@ export default function ComingSoon() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, [mouseX, mouseY]);
 
-  // Parallax Transforms
+  // Parallax Transforms (Desktop)
   const horizonX = useTransform(springX, [-0.5, 0.5], ['-2%', '2%']);
   const horizonY = useTransform(springY, [-0.5, 0.5], ['-1%', '1%']);
 
-  // Text Ring transforms - make it look like it's orbiting the horizon
-  const textRingRotateX = useTransform(springY, [-0.5, 0.5], [75, 65]); // Tilted to look like a ring
+  // Text Ring transforms (Desktop)
+  const textRingRotateX = useTransform(springY, [-0.5, 0.5], [75, 65]);
   const textRingRotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950 text-foreground selection:bg-primary/20 perspective-1000">
 
-      {/* Navigation Bar */}
       {/* Navigation Bar */}
       <Navbar />
 
@@ -68,11 +80,23 @@ export default function ComingSoon() {
 
       {/* Massive Horizon Arc (The Blackhole/Planet) */}
       <motion.div
-        style={{ x: horizonX, y: horizonY }}
+        style={!isMobile ? { x: horizonX, y: horizonY } : undefined}
+        animate={isMobile ? {
+          scale: [1, 1.05, 1],
+        } : undefined}
+        transition={isMobile ? {
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        } : undefined}
         className="pointer-events-none absolute top-1/2 left-1/2 z-10 h-[70vw] w-[70vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black shadow-[0_0_100px_30px_rgba(59,130,246,0.6),0_0_240px_80px_rgba(168,85,247,0.4)] md:h-[25vw] md:w-[25vw]"
       >
         {/* Glowing Rim (Nova Effect) - Sharp & Intense */}
-        <div className="absolute inset-0 rounded-full border-[3px] border-blue-400/50 blur-[4px]" />
+        <motion.div
+          animate={isMobile ? { opacity: [0.5, 0.8, 0.5] } : undefined}
+          transition={isMobile ? { duration: 4, repeat: Infinity, ease: "easeInOut" } : undefined}
+          className="absolute inset-0 rounded-full border-[3px] border-blue-400/50 blur-[4px]"
+        />
         <div className="absolute inset-0 rounded-full border-[1px] border-white/40 blur-[1px]" />
 
         {/* Inner Atmosphere */}
@@ -85,11 +109,22 @@ export default function ComingSoon() {
       {/* 3D Text Ring - Positioned to orbit the horizon */}
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-hidden">
         <motion.div
-          style={{
+          style={!isMobile ? {
             rotateX: textRingRotateX,
             rotateY: textRingRotateY,
-            y: 0 // Centered
+            y: 0
+          } : {
+            rotateX: 70, // Fixed tilt for mobile
+            y: 0
           }}
+          animate={isMobile ? {
+            rotateY: [0, 360]
+          } : undefined}
+          transition={isMobile ? {
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          } : undefined}
           className="perspective-1000"
         >
           <TextRing text="COMING SOON  " radius={290} fontSize="4.5rem" className="opacity-60 text-blue-200/80" />
