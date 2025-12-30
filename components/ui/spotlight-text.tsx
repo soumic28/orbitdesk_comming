@@ -78,7 +78,7 @@ export function SpotlightText({ text, className = '', delay = 0, transparent = f
                     <motion.span
                         key={i}
                         initial={{ opacity: 0, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, filter: 'blur(0px)' }}
+                        animate={{ opacity: 1, filter: 'none' }}
                         transition={{
                             duration: 0.5,
                             delay: delay + (characters.length - 1 - i) * 0.05, // Right-to-Left delay
@@ -86,7 +86,9 @@ export function SpotlightText({ text, className = '', delay = 0, transparent = f
                         }}
                         className={`inline-block ${transparent ? 'text-transparent' : 'text-transparent bg-clip-text bg-gradient-to-b from-white/80 to-white/40'}`}
                         style={{
-                            WebkitTextStroke: transparent ? '1px rgba(139, 92, 246, 0.4)' : '1px rgba(255,255,255,0.1)'
+                            WebkitTextStroke: transparent ? '1px rgba(139, 92, 246, 0.4)' : '1px rgba(255,255,255,0.1)',
+                            WebkitTextFillColor: transparent ? 'transparent' : undefined,
+                            transform: 'translateZ(0)', // Force GPU
                         }}
                     >
                         {char === ' ' ? '\u00A0' : char}
@@ -117,6 +119,8 @@ export function SpotlightText({ text, className = '', delay = 0, transparent = f
                         className={`inline-block ${transparent ? 'text-transparent' : 'text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80'}`}
                         style={{
                             WebkitTextStroke: transparent ? '1px rgba(139, 92, 246, 1)' : '1px rgba(139, 92, 246, 0.8)',
+                            WebkitTextFillColor: transparent ? 'transparent' : undefined,
+                            transform: 'translateZ(0)', // Force GPU
                         }}
                     >
                         {char === ' ' ? '\u00A0' : char}
