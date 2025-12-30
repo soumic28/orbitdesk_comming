@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 interface SpotlightTextProps {
     text: string;
     className?: string;
+    transparent?: boolean;
 }
 
-export function SpotlightText({ text, className = '', delay = 0 }: SpotlightTextProps & { delay?: number }) {
+export function SpotlightText({ text, className = '', delay = 0, transparent = false }: SpotlightTextProps & { delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [opacity, setOpacity] = useState(0);
@@ -49,8 +50,10 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
                             delay: delay + (characters.length - 1 - i) * 0.05, // Right-to-Left delay
                             ease: "easeOut"
                         }}
-                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white/80 to-white/40"
-                        style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
+                        className={`inline-block ${transparent ? 'text-transparent' : 'text-transparent bg-clip-text bg-gradient-to-b from-white/80 to-white/40'}`}
+                        style={{
+                            WebkitTextStroke: transparent ? '1px rgba(139, 92, 246, 0.4)' : '1px rgba(255,255,255,0.1)'
+                        }}
                     >
                         {char === ' ' ? '\u00A0' : char}
                     </motion.span>
@@ -77,9 +80,9 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
                             delay: delay + (characters.length - 1 - i) * 0.05,
                             ease: "easeOut"
                         }}
-                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80"
+                        className={`inline-block ${transparent ? 'text-transparent' : 'text-transparent bg-clip-text bg-gradient-to-b from-white to-white/80'}`}
                         style={{
-                            WebkitTextStroke: '1px rgba(139, 92, 246, 0.8)',
+                            WebkitTextStroke: transparent ? '1px rgba(139, 92, 246, 1)' : '1px rgba(139, 92, 246, 0.8)',
                         }}
                     >
                         {char === ' ' ? '\u00A0' : char}

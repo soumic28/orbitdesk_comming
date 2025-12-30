@@ -91,7 +91,7 @@ export default function ComingSoon() {
         <div className="relative z-10 flex flex-col items-center">
           {/* Using a large font size for the background text */}
           <div className="text-[18vw] font-bold leading-none tracking-tighter p-8">
-            <SpotlightText text="OrbitDesk" delay={2} />
+            <SpotlightText text="OrbitDesk" delay={2} transparent={true} />
           </div>
           <motion.div
             className='text-[8vw] font-bold leading-tight tracking-tighter text-center py-4'
