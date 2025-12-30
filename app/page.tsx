@@ -165,8 +165,7 @@ export default function ComingSoon() {
           className="absolute bottom-24 left-0 right-0 text-center px-4 pointer-events-auto"
         >
           <p className="mx-auto max-w-2xl text-lg md:text-xl text-purple-100/80 leading-relaxed font-light tracking-wide">
-            We are thrilled to unveil <span className="text-white font-medium">OrbitDesk </span>, our most advanced mission OS yet, <br className="hidden md:block" />
-            blending superior reasoning with extensive integration capabilities.
+            <span className="text-white font-medium">OrbitDesk</span> is a focused workspace for teams that value clarity over chaos and outcomes over dashboards.
           </p>
         </motion.div>
 
