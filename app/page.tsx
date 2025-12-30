@@ -90,11 +90,11 @@ export default function ComingSoon() {
       <div className="absolute inset-0 z-0 flex items-center justify-start md:justify-center overflow-hidden px-6 md:px-12">
         <div className="relative z-10 flex flex-col items-start md:items-center">
           {/* Using a large font size for the background text */}
-          <div className="text-[15vw] md:text-[12vw] font-bold leading-none tracking-tighter py-8">
+          <div className="text-[15vw] md:text-[12vw] font-bold leading-none tracking-tighter py-4 md:py-8">
             <SpotlightText text="OrbitDesk" delay={2} transparent={true} />
           </div>
           <motion.div
-            className='text-[8vw] md:text-[5vw] font-bold leading-tight tracking-tighter text-left md:text-center py-4'
+            className='text-[8vw] md:text-[5vw] font-bold leading-tight tracking-tighter text-left md:text-center py-2 md:py-4'
             animate={isMobile ? {
               opacity: [0.8, 1, 0.8],
               scale: [0.98, 1.02, 0.98]
@@ -162,7 +162,7 @@ export default function ComingSoon() {
           initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ delay: 3.5, duration: 1 }}
-          className="absolute bottom-24 left-0 right-0 text-left md:text-center px-6 md:px-12 pointer-events-auto"
+          className="absolute bottom-40 md:bottom-24 left-0 right-0 text-left md:text-center px-6 md:px-12 pointer-events-auto"
         >
           <p className="md:mx-auto max-w-2xl text-lg md:text-xl text-purple-100/80 leading-relaxed font-light tracking-wide">
             <span className="text-white font-medium">OrbitDesk</span> is a focused workspace for teams that value clarity over chaos and outcomes over dashboards.
@@ -174,12 +174,12 @@ export default function ComingSoon() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 4, duration: 1 }}
-          className="absolute bottom-12 right-12 hidden gap-4 md:flex items-center pointer-events-auto"
+          className="absolute bottom-8 left-6 right-6 md:left-auto md:right-12 md:bottom-12 flex flex-col md:flex-row gap-3 md:gap-4 items-center md:items-center pointer-events-auto"
         >
-          <MagneticButton className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+          {/* <MagneticButton className="w-full md:w-auto rounded-full border border-purple-500/20 px-6 py-3 md:py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
             Build with OrbitDesk
-          </MagneticButton>
-          <MagneticButton className="rounded-full border border-purple-500/20 px-6 py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+          </MagneticButton> */}
+          <MagneticButton className="w-full md:w-auto rounded-full border border-purple-500/20 px-6 py-3 md:py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer">
             Learn More
           </MagneticButton>
         </motion.div>
