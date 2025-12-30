@@ -1,31 +1,63 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionTemplate, useMotionValue, animate } from 'framer-motion';
 
 interface SpotlightTextProps {
     text: string;
     className?: string;
     transparent?: boolean;
+    autoAnimate?: boolean;
 }
 
-export function SpotlightText({ text, className = '', delay = 0, transparent = false }: SpotlightTextProps & { delay?: number }) {
+export function SpotlightText({ text, className = '', delay = 0, transparent = false, autoAnimate = false }: SpotlightTextProps & { delay?: number }) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [opacity, setOpacity] = useState(0);
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        if (autoAnimate && containerRef.current) {
+            const container = containerRef.current;
+            const width = container.offsetWidth;
+            const height = container.offsetHeight;
+
+            // Center Y
+            mouseY.set(height / 2);
+
+            // Animate X continuously from left to right
+            // Start slightly before the text and end slightly after to ensure full coverage
+            const controls = animate(mouseX, [-150, width + 150], {
+                duration: 3.5,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "linear",
+                repeatDelay: 0 // No delay for continuous flow
+            });
+
+            setIsHovered(true);
+
+            return () => controls.stop();
+        }
+    }, [autoAnimate, mouseX, mouseY]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!containerRef.current) return;
+        if (autoAnimate || !containerRef.current) return;
 
         const rect = containerRef.current.getBoundingClientRect();
-        setPosition({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        });
+        mouseX.set(e.clientX - rect.left);
+        mouseY.set(e.clientY - rect.top);
     };
 
-    const handleMouseEnter = () => setOpacity(1);
-    const handleMouseLeave = () => setOpacity(0);
+    const handleMouseEnter = () => {
+        if (!autoAnimate) setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (!autoAnimate) setIsHovered(false);
+    };
+
+    const maskImage = useMotionTemplate`radial-gradient(180px circle at ${mouseX}px ${mouseY}px, black, transparent)`;
 
     const characters = text.split('');
 
@@ -64,10 +96,10 @@ export function SpotlightText({ text, className = '', delay = 0, transparent = f
             <motion.div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                    maskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
-                    WebkitMaskImage: `radial-gradient(180px circle at ${position.x}px ${position.y}px, black, transparent)`,
+                    maskImage,
+                    WebkitMaskImage: maskImage,
                 }}
-                animate={{ opacity }}
+                animate={{ opacity: isHovered ? 1 : 0 }}
                 transition={{ duration: 0.2 }}
             >
                 {characters.map((char, i) => (
