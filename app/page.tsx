@@ -87,14 +87,14 @@ export default function ComingSoon() {
       </div>
 
       {/* Massive Background Text "OrbitDesk" - With Spotlight Effect */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
-        <div className="relative z-10 flex flex-col items-center">
+      <div className="absolute inset-0 z-0 flex items-center justify-start md:justify-center overflow-hidden px-6 md:px-12">
+        <div className="relative z-10 flex flex-col items-start md:items-center">
           {/* Using a large font size for the background text */}
-          <div className="text-[18vw] font-bold leading-none tracking-tighter p-8">
+          <div className="text-[15vw] md:text-[12vw] font-bold leading-none tracking-tighter py-8">
             <SpotlightText text="OrbitDesk" delay={2} transparent={true} />
           </div>
           <motion.div
-            className='text-[8vw] font-bold leading-tight tracking-tighter text-center py-4'
+            className='text-[8vw] md:text-[5vw] font-bold leading-tight tracking-tighter text-left md:text-center py-4'
             animate={isMobile ? {
               opacity: [0.8, 1, 0.8],
               scale: [0.98, 1.02, 0.98]
@@ -152,7 +152,7 @@ export default function ComingSoon() {
       />
 
       {/* Content Container */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-20 pointer-events-none">
+      <div className="relative z-10 flex min-h-screen flex-col items-start md:items-center justify-center px-6 md:px-12 pt-20 pointer-events-none">
 
         {/* Input Field Area - Commented out by user */}
         {/* <motion.div ... /> */}
@@ -162,9 +162,9 @@ export default function ComingSoon() {
           initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ delay: 3.5, duration: 1 }}
-          className="absolute bottom-24 left-0 right-0 text-center px-4 pointer-events-auto"
+          className="absolute bottom-24 left-0 right-0 text-left md:text-center px-6 md:px-12 pointer-events-auto"
         >
-          <p className="mx-auto max-w-2xl text-lg md:text-xl text-purple-100/80 leading-relaxed font-light tracking-wide">
+          <p className="md:mx-auto max-w-2xl text-lg md:text-xl text-purple-100/80 leading-relaxed font-light tracking-wide">
             <span className="text-white font-medium">OrbitDesk</span> is a focused workspace for teams that value clarity over chaos and outcomes over dashboards.
           </p>
         </motion.div>
