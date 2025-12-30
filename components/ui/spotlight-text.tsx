@@ -49,7 +49,7 @@ export function SpotlightText({ text, className = '', delay = 0 }: SpotlightText
                             delay: delay + (characters.length - 1 - i) * 0.05, // Right-to-Left delay
                             ease: "easeOut"
                         }}
-                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white/20 to-white/5"
+                        className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-white/80 to-white/40"
                         style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}
                     >
                         {char === ' ' ? '\u00A0' : char}

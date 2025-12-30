@@ -19,31 +19,6 @@ export function Navbar({ className }: { className?: string }) {
                 </Link>
             </div>
 
-            {/* Version Switcher */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-1 rounded-full border border-white/5 bg-white/5 p-1 backdrop-blur-sm">
-                <Link
-                    href="/"
-                    className={cn(
-                        "px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-300",
-                        pathname === '/'
-                            ? "bg-white/10 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-                            : "text-zinc-500 hover:text-zinc-300"
-                    )}
-                >
-                    V1
-                </Link>
-                <Link
-                    href="/v2"
-                    className={cn(
-                        "px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-300",
-                        pathname === '/v2'
-                            ? "bg-white/10 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)]"
-                            : "text-zinc-500 hover:text-zinc-300"
-                    )}
-                >
-                    V2
-                </Link>
-            </div>
 
             <div className="group relative cursor-pointer">
                 <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 blur transition duration-500 group-hover:opacity-70" />
