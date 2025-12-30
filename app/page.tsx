@@ -9,9 +9,11 @@ import { SpotlightText } from '@/components/ui/spotlight-text';
 import { cn } from '@/lib/utils';
 import Particles from '@/components/ui/particles';
 import { MagneticButton } from '@/components/ui/magnetic-button';
+import { InfoSlides } from '@/components/ui/info-slides';
 
 export default function ComingSoon() {
   const [isMobile, setIsMobile] = useState(false);
+  const [showInfoSlides, setShowInfoSlides] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -179,7 +181,10 @@ export default function ComingSoon() {
           {/* <MagneticButton className="w-full md:w-auto rounded-full border border-purple-500/20 px-6 py-3 md:py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]">
             Build with OrbitDesk
           </MagneticButton> */}
-          <MagneticButton className="w-full md:w-auto rounded-full border border-purple-500/20 px-6 py-3 md:py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer">
+          <MagneticButton
+            onClick={() => setShowInfoSlides(true)}
+            className="w-full md:w-auto rounded-full border border-purple-500/20 px-6 py-3 md:py-2 text-xs font-medium text-purple-200/60 transition-all hover:bg-purple-500/10 hover:text-purple-100 hover:border-purple-400/40 uppercase tracking-wider hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer"
+          >
             Learn More
           </MagneticButton>
         </motion.div>
@@ -195,6 +200,8 @@ export default function ComingSoon() {
         </motion.div>
 
       </div>
+
+      <InfoSlides isOpen={showInfoSlides} onClose={() => setShowInfoSlides(false)} />
     </div>
   );
 }

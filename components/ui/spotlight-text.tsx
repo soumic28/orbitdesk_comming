@@ -45,6 +45,8 @@ export function SpotlightText({ text, className = '', delay = 0, transparent = f
         if (autoAnimate || !containerRef.current) return;
 
         const rect = containerRef.current.getBoundingClientRect();
+        if (!rect) return; // Extra safety check
+
         mouseX.set(e.clientX - rect.left);
         mouseY.set(e.clientY - rect.top);
     };
